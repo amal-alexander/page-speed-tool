@@ -1,0 +1,37 @@
+# Ignore .env files
+.env
+
+# Ignore virtual environment
+venv/
+.venv/
+env/
+
+# Ignore cache files
+__pycache__/
+.pytest_cache/
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore build and distribution files
+dist/
+build/
+*.egg-info/
+
+# Ignore large files
+large_dataset.csv
+node_modules
+
+# Ignore environment variables
+.env
+
+# Ignore Node.js modules
+node_modules/
+
+# Ignore Excel files
+*.xlsx
+
+# Ignore system files
+*.lnk
+~$*

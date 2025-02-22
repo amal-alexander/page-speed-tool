@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PageSpeed Analyzer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>PageSpeed Analyzer</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="file" id="fileInput" accept=".xlsx" required>
+      <button type="submit">Upload and Analyze</button>
+    </form>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('fileInput');
+      const status = document.getElementById('status');
+
+      if (fileInput.files.length === 0) {
+        status.textContent = 'Please select a file.';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+
+      status.textContent = 'Processing... Please wait.';
+
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'PageSpeedResults.xlsx';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          status.textContent = 'Download complete!';
+        } else {
+          status.textContent = 'Error processing file.';
+        }
+      } catch (error) {
+        status.textContent = 'Error uploading file.';
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
